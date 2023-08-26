@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import cn from "classnames";
 import styles from "./Header.module.sass";
 import { Link, NavLink } from "react-router-dom";
@@ -9,6 +9,9 @@ import Icon from "../Icon";
 import Notifications from "./Notifications";
 import Theme from "../Theme";
 import User from "./User";
+
+import {CloudContext} from '../../context/CloudContext';
+import { shortenAddress } from "../../utils/shortenAddress";
 
 const navigation = [
   // {
@@ -40,8 +43,16 @@ const navigation = [
   // },
 ];
 
+
 const Header = ({ headerWide }) => {
   const [visibleNav, setVisibleNav] = useState(false);
+
+  const {connectWallet, currentAccount} = useContext(CloudContext);
+
+  const handleConnectWallet = async () => {
+    await connectWallet();
+  }
+
 
   return (
     <header className={cn(styles.header, { [styles.wide]: headerWide })}>
@@ -123,13 +134,13 @@ const Header = ({ headerWide }) => {
               <Icon name='lightning' size='24' />
             </NavLink> */}
             <Notifications className={styles.notifications} />
-            <NavLink
+            <button
               className={cn("button-stroke button-small", styles.button)}
               activeClassName={styles.active}
-              to='/wallet-overview'
+              onClick={() => handleConnectWallet()}
             >
-              Wallet
-            </NavLink>
+              {currentAccount ? shortenAddress(currentAccount) : 'Connect Wallet'}
+            </button>
             <Theme className={styles.theme} icon />
             <User className={styles.user} />
           </div>

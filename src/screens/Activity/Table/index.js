@@ -29,12 +29,12 @@ const Table = ({ className, items }) => {
           <div className={styles.col}>
             {x.withdrew && (
               <div className={cn("category-blue", styles.category)}>
-                Withdrew
+                Processing...
               </div>
             )}
             {x.deposited && (
               <div className={cn("category-green", styles.category)}>
-                Deposited
+                Confirmed
               </div>
             )}
           </div>

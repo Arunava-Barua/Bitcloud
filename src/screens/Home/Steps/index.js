@@ -10,13 +10,13 @@ const items = [
     content:
       "Stacks is a production-ready library of stackable content blocks built in React Native.",
   },
-  {
-    title: "Connect wallet",
-    image2x: "/images/content/step-2@2x.png",
-    image: "/images/content/step-2.png",
-    content:
-      "Stacks is a production-ready library of stackable content blocks built in React Native.",
-  },
+  // {
+  //   title: "Connect wallet",
+  //   image2x: "/images/content/step-2@2x.png",
+  //   image: "/images/content/step-2.png",
+  //   content:
+  //     "Stacks is a production-ready library of stackable content blocks built in React Native.",
+  // },
   {
     title: "Start trading",
     image2x: "/images/content/step-3@2x.png",

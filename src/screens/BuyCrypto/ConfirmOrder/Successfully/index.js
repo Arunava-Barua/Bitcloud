@@ -28,7 +28,8 @@ const Successfully = () => {
         </div> */}
         <div className={`${styles.list} ${styles.longText}`}>
           <span>
-            109894958424170932295006824834592490430484285419742650594761758582530622193057
+            000000000000000000000000000000000000000000000000000000000000000000000000000000
+            
           </span>
         </div>
         <div
@@ -44,7 +45,7 @@ const Successfully = () => {
             Trade
           </Link> */}
           <Link className={cn("button", styles.button)} to='/wallet-overview'>
-            Done
+            Generate
           </Link>
         </div>
       </div>
