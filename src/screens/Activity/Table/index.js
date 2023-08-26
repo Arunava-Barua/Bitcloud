@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./Table.module.sass";
 import { Link } from "react-router-dom";
 
-const Table = ({ className, items }) => {
+import { CloudContext } from "../../../context/CloudContext";
+
+import { shortenAddress } from "../../../utils/shortenAddress.jsx";
+
+const Table = ({ className, items, receive }) => {
+  const { receivingTxns, sendingTxns } = useContext(CloudContext);
+
+  console.log("State txs: ", receivingTxns);
+
   return (
     <div className={cn(className, styles.table)}>
       <div className={styles.row}>
@@ -20,16 +28,18 @@ const Table = ({ className, items }) => {
           <div className="sorting">Address</div>
         </div>
         <div className={styles.col}>
-          <div className="sorting">Transaction ID</div>
+          <div className="sorting">Chain</div>
         </div>
         <div className={styles.col}>Date</div>
       </div>
+
       {items.map((x, index) => (
-        <Link className={styles.row} key={index} to={x.url}>
+        <div className={styles.row} key={index} to={x.url}>
           <div className={styles.col}>
             {x.withdrew && (
               <div className={cn("category-blue", styles.category)}>
-                Processing...
+                {receive && receivingTxns[0] && receivingTxns[0].status}
+                {receive || (sendingTxns[0] && sendingTxns[0].status)}
               </div>
             )}
             {x.deposited && (
@@ -48,21 +58,28 @@ const Table = ({ className, items }) => {
           </div>
           <div className={styles.col}>
             <div className={styles.label}>Amount</div>
-            {x.amount}
+            {receive && receivingTxns[0] && receivingTxns[0].amount}
+            {receive || (sendingTxns[0] && sendingTxns[0].amount)}
           </div>
           <div className={styles.col}>
             <div className={styles.label}>Address</div>
-            {x.address}
+            {receive &&
+              receivingTxns[0] &&
+              shortenAddress(receivingTxns[0].sender)}
+            {receive ||
+              (sendingTxns[0] && shortenAddress(sendingTxns[0].receiver))}
           </div>
           <div className={styles.col}>
             <div className={styles.label}>Transaction ID</div>
-            {x.transaction}
+            {receive && receivingTxns[0] && receivingTxns[0].chain}
+            {receive || (sendingTxns[0] && sendingTxns[0].chain)}
           </div>
           <div className={styles.col}>
             <div className={styles.label}>Date</div>
-            {x.date}
+            {receive && receivingTxns[0] && receivingTxns[0].startTime}
+            {receive || (sendingTxns[0] && sendingTxns[0].startTime)}
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );

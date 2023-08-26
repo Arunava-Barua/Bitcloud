@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import cn from "classnames";
 import styles from "./WalletOverview.module.sass";
 import Wallet from "../../components/Wallet";
@@ -9,11 +9,18 @@ import AssetBalances from "./AssetBalances";
 import Integrations from "./Integrations";
 import Activity from "../../screens/Activity/index";
 
+import {CloudContext} from '../../context/CloudContext';
+
 const optionsCurrency = ["USD", "EUR", "RUB"];
+
+
 
 const WalletOverview = () => {
   const [search, setSearch] = useState("");
   const [currency, setCurrency] = useState(optionsCurrency[0]);
+
+  const {receivingTxns} = useContext(CloudContext);
+
 
   const handleSubmit = (e) => {
     alert();
@@ -68,13 +75,13 @@ const WalletOverview = () => {
         <div className={styles.item}>
           <div className={styles.head}>Send Transactions</div>
           <div>
-            <Activity />
+            <Activity receive={false}/>
           </div>
         </div>
         <div className={styles.item}>
           <div className={styles.head}>Receive Transactions</div>
           <div>
-            <Activity />
+            <Activity receive={true}/>
           </div>
         </div>
         {/* <div className={styles.item}>

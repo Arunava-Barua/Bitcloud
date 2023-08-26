@@ -69,7 +69,7 @@ const table = [
   },
 ];
 
-const Activity = () => {
+const Activity = ({receive}) => {
   const [email, setEmail] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -131,7 +131,7 @@ const Activity = () => {
             <h4 className={cn("h4", styles.title)}>Activity</h4>
             <Export className={styles.export} />
           </div> */}
-          <Table className={styles.table} items={table} />
+          <Table className={styles.table} items={table} receive={receive}/>
         </div>
         {/* <Actions className={styles.actions} /> */}
       </div>
