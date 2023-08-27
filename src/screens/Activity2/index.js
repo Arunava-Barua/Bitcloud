@@ -6,7 +6,7 @@ import Actions from "../../components/Actions";
 import Calendar from "../../components/Calendar";
 import Export from "../../components/Export";
 import Dropdown from "../../components/Dropdown";
-import Table from "./Table";
+import Table from "./Table2";
 
 const navigation = [
   "All type",
@@ -20,7 +20,7 @@ const table = [
   {
     withdrew: true,
     currency: "Bitcoin",
-    image: "/images/content/currency/usd-coin.svg",
+    image: "/images/content/currency/bitcoin.svg",
     amount: "1,641.20 BTC",
     address: "3DkQyAdif6kQLPMBu",
     transaction: "3DkQyAdif6kQLPMBu",
@@ -69,7 +69,7 @@ const table = [
   },
 ];
 
-const Activity = ({}) => {
+const Activity2 = ({}) => {
   const [email, setEmail] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -139,4 +139,4 @@ const Activity = ({}) => {
   );
 };
 
-export default Activity;
+export default Activity2;

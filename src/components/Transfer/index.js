@@ -46,6 +46,7 @@ const Transfer = () => {
     setToggleTransferSuccess,
     visibleTransfer,
     setVisibleTransfer,
+    accountBalance
   } = useContext(CloudContext);
 
   useEffect(() => console.log(toggleTransferSuccess), [toggleTransferSuccess]);
@@ -61,8 +62,8 @@ const Transfer = () => {
           Available <br></br>balance
         </div>
         <div className={styles.details}>
-          <div className={styles.currency}>2.56213968 ETH</div>
-          <div className={styles.price}>$10,095.35</div>
+          <div className={styles.currency}>{accountBalance} aUSDC</div>
+          {/* <div className={styles.price}></div> */}
         </div>
       </div>
       <div className={styles.field}>
@@ -109,7 +110,7 @@ const Transfer = () => {
           label='Amount to transfer'
           name='amount'
           type='text'
-          note='2.14646231064565653 ETH available'
+          note={`${accountBalance} aUSDC available`}
           required
         />
         <button className={cn("button-stroke button-small", styles.button)}>

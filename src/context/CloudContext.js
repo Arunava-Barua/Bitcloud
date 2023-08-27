@@ -3,11 +3,14 @@ import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 
 import Crossway from "./Crossway.json";
+import ERC20 from "./ERC20.json";
 
 export const CloudContext = createContext({});
 
 const contractAddress = "0x5C39516A106159Ae8305Cb8784C4F5eebB543E3c";
+const erc20ContractAddress = "0x2c852e740B62308c46DD29B982FBb650D063Bd07";
 const contractAbi = Crossway.abi;
+const erc20ContractAbi = ERC20.abi;
 
 export const CloudProvider = ({ children }) => {
   const [toggleTransferSuccess, setToggleTransferSuccess] = useState(false);
@@ -15,6 +18,7 @@ export const CloudProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [receivingTxns, setReceivingTxns] = useState([]);
   const [sendingTxns, setSendingTxns] = useState([]);
+  const [accountBalance, setAccountBalance] = useState('');
 
   const convertDateTime = (unixTime) => {
     let date = new Date(unixTime * 1000).toString();
@@ -85,13 +89,56 @@ export const CloudProvider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
+      await getAccountBalance();
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       await getAllMyReceiving();
     })();
   }, []);
 
+  const getAccountBalance = async () => {
+    let userAddress;
+
+    const contractAbi = [
+
+    ]
+
+    if (window.ethereum) {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+
+      const contract = new ethers.Contract(
+        erc20ContractAddress,
+        erc20ContractAbi,
+        provider
+      );
+
+      if (window.ethereum.isConnected()) {
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        console.log(accounts[0]);
+        userAddress = accounts[0];
+      }
+
+      const txRes = await contract.balanceOf(userAddress);
+      let formattedtxRes = Number(txRes._hex);
+      formattedtxRes = formattedtxRes/ (10 ** 6);
+      console.log('====================================');
+      console.log("balance of ---> ", formattedtxRes);
+      console.log('====================================');
+
+      setAccountBalance(formattedtxRes);
+    }
+  }
+
   const getAllMySending = async () => {
-    let results = [],
-      txn;
+    let results = [], txn;
     let userAddress;
 
     if (window.ethereum) {
@@ -203,6 +250,7 @@ export const CloudProvider = ({ children }) => {
         setReceivingTxns,
         getAllMyReceiving,
         sendingTxns,
+        accountBalance
       }}
     >
       {children}

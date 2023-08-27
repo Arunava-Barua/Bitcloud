@@ -8,6 +8,7 @@ import AccountBalances from "./AccountBalances";
 import AssetBalances from "./AssetBalances";
 import Integrations from "./Integrations";
 import Activity from "../../screens/Activity/index";
+import Activity2 from "../../screens/Activity2/index";
 
 import {CloudContext} from '../../context/CloudContext';
 
@@ -19,7 +20,7 @@ const WalletOverview = () => {
   const [search, setSearch] = useState("");
   const [currency, setCurrency] = useState(optionsCurrency[0]);
 
-  const {receivingTxns} = useContext(CloudContext);
+  const {accountBalance} = useContext(CloudContext);
 
 
   const handleSubmit = (e) => {
@@ -50,13 +51,13 @@ const WalletOverview = () => {
                 <Icon name='search' size='20' />
               </button>
             </form>
-            <Dropdown
+            {/* <Dropdown
               className={styles.dropdown}
               classDropdownHead={styles.dropdownHead}
               value={currency}
               setValue={setCurrency}
               options={optionsCurrency}
-            />
+            /> */}
             <button className={cn("button-black button-small", styles.button)}>
               Show balance
             </button>
@@ -65,23 +66,22 @@ const WalletOverview = () => {
         <div className={styles.details}>
           <div className={styles.info}>Total balance</div>
           <div className={styles.currency}>
-            <div className={styles.number}>0.27894652</div>
-            <div className={cn("category-green", styles.category)}>BTC</div>
+            <div className={styles.number}>{accountBalance}</div>
+            <div className={cn("category-green", styles.category)}>aUSDC</div>
           </div>
-          <div className={styles.price}>$10,098.36</div>
         </div>
       </div>
       <div className={styles.list}>
         <div className={styles.item}>
           <div className={styles.head}>Send Transactions</div>
           <div>
-            <Activity receive={false}/>
+            <Activity2/>  
           </div>
         </div>
         <div className={styles.item}>
           <div className={styles.head}>Receive Transactions</div>
           <div>
-            <Activity receive={true}/>
+            <Activity/>
           </div>
         </div>
         {/* <div className={styles.item}>

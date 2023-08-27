@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import cn from "classnames";
 import styles from "./Transfer.module.sass";
 import Icon from "../Icon";
 import TextInput from "../TextInput";
 import Dropdown from "../Dropdown";
+
+import { CloudContext } from "../../context/CloudContext";
+
 
 const fromDirectionOptions = ["Margin", "Fiat and Spot"];
 const toDirectionOptions = [
@@ -40,19 +43,23 @@ const TransferMulti = () => {
   const [toDirection, setToDirection] = useState(toDirectionOptions[0]);
   const [coin, setCoin] = useState(coinOptions[0]);
 
+  const {
+    accountBalance
+  } = useContext(CloudContext);
+
   return (
     <div className={styles.transfer}>
       <div className={cn("h4", styles.title)}>
         <Icon name='arrow-left' size='32' />
-        Transfer
+        Multi-Transfer
       </div>
       <div className={styles.wrap}>
         <div className={styles.category}>
           Available <br></br>balance
         </div>
         <div className={styles.details}>
-          <div className={styles.currency}>2.56213968 ETH</div>
-          <div className={styles.price}>$10,095.35</div>
+          <div className={styles.currency}>{accountBalance} aUSDC</div>
+          {/* <div className={styles.price}>$10,095.35</div> */}
         </div>
       </div>
       <div className={styles.field}>
@@ -65,7 +72,7 @@ const TransferMulti = () => {
         /> */}
         <TextInput
           className={styles.field}
-          label='Receiver Address 1'
+          label='Receiver Address 1 *'
           name='Address'
           type='text'
           note=''
@@ -73,7 +80,7 @@ const TransferMulti = () => {
         />
         <TextInput
           className={styles.field}
-          label='Receiver Address 2'
+          label='Receiver Address 2 *'
           name='Address'
           type='text'
           note=''
@@ -121,7 +128,7 @@ const TransferMulti = () => {
           label='Amount to transfer'
           name='amount'
           type='text'
-          note='2.14646231064565653 ETH available'
+          note={`${accountBalance} aUSDC available`}
           required
         />
         <button className={cn("button-stroke button-small", styles.button)}>
