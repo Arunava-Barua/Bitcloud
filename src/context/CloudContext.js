@@ -7,7 +7,7 @@ import ERC20 from "./ERC20.json";
 
 export const CloudContext = createContext({});
 
-const contractAddress = "0x5C39516A106159Ae8305Cb8784C4F5eebB543E3c";
+const contractAddress = "0xcA82A7B87De5EAf45305422aF17Da0A092584cda";
 const erc20ContractAddress = "0x2c852e740B62308c46DD29B982FBb650D063Bd07";
 const contractAbi = Crossway.abi;
 const erc20ContractAbi = ERC20.abi;
@@ -101,10 +101,6 @@ export const CloudProvider = ({ children }) => {
 
   const getAccountBalance = async () => {
     let userAddress;
-
-    const contractAbi = [
-
-    ]
 
     if (window.ethereum) {
       const web3Modal = new Web3Modal();
@@ -236,9 +232,252 @@ export const CloudProvider = ({ children }) => {
     }
   };
 
+  const getRandomNumber = async ({receiver, amount, chain}) => {
+    let user;
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        );
+
+        if (window.ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+          user = accounts[0];
+        }
+
+        // string memory _companyName, string memory _description, uint256 _loanAmt, string memory _docs
+        const txRes = await contract.requestRandomWords({gasLimit: 50000000});
+
+        await txRes.wait(1);
+
+        setTimeout(async () =>  {
+          await initiateTransaction(receiver, amount, chain);
+        }, 5000); // doubt
+        
+        console.log("Random words: ",txRes);
+        return true;
+      }
+    } catch (error) {
+      console.log("Random words: ", error);
+      alert("Random words: ");
+    }
+  };
+
+  const initiateTransaction = async (receiver, amount, chain) => {
+    let user;
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        );
+
+        if (window.ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+          user = accounts[0];
+        }
+
+        //address _sender, address _receiver, uint256 _amount, string memory _chain, string memory _receiverStr
+        const txRes = await contract.executePayment(
+          user, receiver, amount, chain, receiver,
+          {gasLimit: 50000000});
+
+        await txRes.wait(1);
+        
+        console.log("Initiate Txn: ",txRes);
+
+        return true;
+      }
+    } catch (error) {
+      console.log("Initiate Txn: ", error);
+      alert("Initiate Txn: ");
+    }
+  };
+
+  const cancelTransaction = async (transactionId) => {
+    let user;
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        );
+
+        if (window.ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+          user = accounts[0];
+        }
+
+        const txRes = await contract.cancelPayment(
+          user, transactionId,
+          {gasLimit: 50000000});
+
+        await txRes.wait(1);
+        
+        console.log("Cancel Txn: ",txRes);
+
+        return true;
+      }
+    } catch (error) {
+      console.log("Cancel Txn: ", error);
+      alert("Cancel Txn: ");
+    }
+  };
+
+  const acceptInTransaction = async (transactionId, verificationId) => {
+    let user;
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        );
+
+        if (window.ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+          user = accounts[0];
+        }
+
+        const txRes = await contract.acceptIncomingPayment(
+          user, transactionId, verificationId,
+          {gasLimit: 50000000});
+
+        await txRes.wait(1);
+        
+        console.log("Accept Txn: ",txRes);
+
+        return true;
+      }
+    } catch (error) {
+      console.log("Accept Txn: ", error);
+      alert("Accept Txn: ");
+    }
+  };
+
+  const approveOutTransaction = async (transactionId) => { // Integrated
+    let user;
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        );
+
+        if (window.ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+          user = accounts[0];
+        }
+
+        const txRes = await contract.approveOutgoingPayment(
+          user, transactionId,
+          {gasLimit: 50000000});
+
+        await txRes.wait(1);
+        
+        console.log("Approve Txn: ",txRes);
+
+        return true;
+      }
+    } catch (error) {
+      console.log("Approve Txn: ", error);
+      alert("Approve Txn: ");
+    }
+  };
+
+  const multiTransaction = async ({walletAddresses, chain, symbol, amount}) => {
+    let user;
+    try {
+      if (window.ethereum) {
+        const web3Modal = new Web3Modal();
+        const connection = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+
+        const contract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        );
+
+        if (window.ethereum.isConnected()) {
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+          console.log(accounts[0]);
+          user = accounts[0];
+        }
+
+        const txRes = await contract.sendToMany(
+          chain, "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9", walletAddresses, symbol, amount, user,
+          {gasLimit: 50000000, value: ethers.utils.parseEther('0.4')});
+
+        await txRes.wait(1);
+        
+        console.log("Multi Txn: ",txRes);
+
+        return true;
+      }
+    } catch (error) {
+      console.log("Multi Txn: ", error);
+      alert("Multi Txn: ");
+    }
+  };
+
   return (
     <CloudContext.Provider
       value={{
+        multiTransaction,
+        approveOutTransaction,
+        acceptInTransaction,
+        cancelTransaction,
+        initiateTransaction,
+        getRandomNumber,
         toggleTransferSuccess,
         setToggleTransferSuccess,
         visibleTransfer,

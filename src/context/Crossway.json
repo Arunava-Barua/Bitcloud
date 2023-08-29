@@ -3,6 +3,11 @@
         {
             "inputs": [
                 {
+                    "internalType": "address",
+                    "name": "_receiver",
+                    "type": "address"
+                },
+                {
                     "internalType": "uint256",
                     "name": "_transactionId",
                     "type": "uint256"
@@ -28,6 +33,11 @@
         {
             "inputs": [
                 {
+                    "internalType": "address",
+                    "name": "_sender",
+                    "type": "address"
+                },
+                {
                     "internalType": "uint256",
                     "name": "_transactionId",
                     "type": "uint256"
@@ -40,6 +50,11 @@
         },
         {
             "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_sender",
+                    "type": "address"
+                },
                 {
                     "internalType": "uint256",
                     "name": "_transactionId",
@@ -54,27 +69,42 @@
         {
             "inputs": [
                 {
-                    "internalType": "uint256",
-                    "name": "_transactionId",
-                    "type": "uint256"
+                    "internalType": "bytes32",
+                    "name": "commandId",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "string",
+                    "name": "sourceChain",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "sourceAddress",
+                    "type": "string"
+                },
+                {
+                    "internalType": "bytes",
+                    "name": "payload",
+                    "type": "bytes"
                 }
             ],
-            "name": "claimPayment",
+            "name": "execute",
             "outputs": [],
-            "stateMutability": "payable",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
             "inputs": [
                 {
                     "internalType": "address",
-                    "name": "_receiver",
+                    "name": "_sender",
                     "type": "address"
                 },
                 {
-                    "internalType": "uint256",
-                    "name": "_verficationId",
-                    "type": "uint256"
+                    "internalType": "address",
+                    "name": "_receiver",
+                    "type": "address"
                 },
                 {
                     "internalType": "uint256",
@@ -98,6 +128,62 @@
             "type": "function"
         },
         {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "commandId",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "string",
+                    "name": "sourceChain",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "sourceAddress",
+                    "type": "string"
+                },
+                {
+                    "internalType": "bytes",
+                    "name": "payload",
+                    "type": "bytes"
+                },
+                {
+                    "internalType": "string",
+                    "name": "tokenSymbol",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                }
+            ],
+            "name": "executeWithToken",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "requestId",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256[]",
+                    "name": "randomWords",
+                    "type": "uint256[]"
+                }
+            ],
+            "name": "rawFulfillRandomWords",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
             "inputs": [],
             "name": "requestRandomWords",
             "outputs": [
@@ -107,19 +193,6 @@
                     "type": "uint256"
                 }
             ],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "to",
-                    "type": "address"
-                }
-            ],
-            "name": "transferOwnership",
-            "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
         },
@@ -139,10 +212,25 @@
                     "internalType": "uint64",
                     "name": "subscriptionId",
                     "type": "uint64"
+                },
+                {
+                    "internalType": "address",
+                    "name": "_gasService",
+                    "type": "address"
                 }
             ],
             "stateMutability": "nonpayable",
             "type": "constructor"
+        },
+        {
+            "inputs": [],
+            "name": "InvalidAddress",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NotApprovedByGateway",
+            "type": "error"
         },
         {
             "inputs": [
@@ -199,24 +287,6 @@
             "type": "event"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "requestId",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256[]",
-                    "name": "randomWords",
-                    "type": "uint256[]"
-                }
-            ],
-            "name": "rawFulfillRandomWords",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
             "anonymous": false,
             "inputs": [
                 {
@@ -257,9 +327,19 @@
         {
             "inputs": [
                 {
+                    "internalType": "address",
+                    "name": "_sender",
+                    "type": "address"
+                },
+                {
                     "internalType": "uint256",
                     "name": "_amount",
                     "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "receiver",
+                    "type": "address"
                 },
                 {
                     "internalType": "string",
@@ -279,6 +359,198 @@
         },
         {
             "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "destinationChain",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "destinationAddress",
+                    "type": "string"
+                },
+                {
+                    "internalType": "address[]",
+                    "name": "walletAddresses",
+                    "type": "address[]"
+                },
+                {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                }
+            ],
+            "name": "sendToMany",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "to",
+                    "type": "address"
+                }
+            ],
+            "name": "transferOwnership",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "receiver",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "chain",
+                    "type": "string"
+                }
+            ],
+            "name": "TxAccepted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "receiver",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "chain",
+                    "type": "string"
+                }
+            ],
+            "name": "TxApproved",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "receiver",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "chain",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "endTime",
+                    "type": "uint256"
+                }
+            ],
+            "name": "TxCompleted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "sender",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "receiver",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "chain",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "startTime",
+                    "type": "uint256"
+                }
+            ],
+            "name": "TxInitiated",
+            "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_user",
+                    "type": "address"
+                },
                 {
                     "internalType": "uint256",
                     "name": "_txId",
@@ -377,13 +649,32 @@
             "type": "function"
         },
         {
-            "inputs": [],
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "_user",
+                    "type": "address"
+                }
+            ],
             "name": "balance",
             "outputs": [
                 {
                     "internalType": "uint256",
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "gasService",
+            "outputs": [
+                {
+                    "internalType": "contract IAxelarGasService",
+                    "name": "",
+                    "type": "address"
                 }
             ],
             "stateMutability": "view",
@@ -910,6 +1201,25 @@
                 {
                     "internalType": "uint256",
                     "name": "endTime",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "verificationCodes",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
                     "type": "uint256"
                 }
             ],

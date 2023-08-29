@@ -1,6 +1,6 @@
 // SENDING TABLE
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import cn from "classnames";
 import styles from "./Table.module.sass";
 import { Link } from "react-router-dom";
@@ -10,7 +10,16 @@ import { CloudContext } from "../../../context/CloudContext";
 import { shortenAddress } from "../../../utils/shortenAddress.jsx";
 
 const Table2 = ({ className, items }) => {
-  const { sendingTxns } = useContext(CloudContext);
+  const { sendingTxns, approveOutTransaction } = useContext(CloudContext);
+
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleApproveTxn = async (txId) => {
+    console.log(`Approve was hit for TxID: ${txId}`);
+    
+    const res = await approveOutTransaction(txId);
+    console.log("Approve Status: ", res);
+  }
 
   console.log("State Sending txs: ", sendingTxns);
 
@@ -50,8 +59,10 @@ const Table2 = ({ className, items }) => {
                   {x.status}
                 </div>
               ) : (
-                <div className={cn("category-blue", styles.category)}>
-                  {x.status}
+                <div className={cn("category-blue", styles.category)} style={{'cursor': 'pointer'}} onClick={() => {
+                  handleApproveTxn(x.id);
+                }}>
+                  {x.status == "Waiting for approval" ? "Approve" : x.status}
                 </div>
               )}
             </div>
