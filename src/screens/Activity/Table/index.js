@@ -14,6 +14,10 @@ const Table = ({ className, items }) => {
 
   console.log("State txs: ", receivingTxns);
 
+  const handleAcceptTxn = async (txId) => {
+    console.log("Receiving TX id: ", txId);
+  }
+
   return (
     <div className={cn(className, styles.table)}>
       <div className={styles.row}>
@@ -47,7 +51,7 @@ const Table = ({ className, items }) => {
               </div>
             ): (
               <div className={cn("category-blue", styles.category)} style={{'cursor': 'pointer'}} onClick={() => {
-                  // handleApproveTxn(x.id); // MODAL for entering verification id
+                  handleAcceptTxn(x.id); // MODAL for entering verification id
                 }}>
                 {x.status == "Waiting for acceptance" ? "Accept" : x.status}
               </div>

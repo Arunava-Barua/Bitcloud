@@ -26,13 +26,14 @@ export const CloudProvider = ({ children }) => {
     chain: ""
   });
 
-  const [multiTxForm, setMultiTxForm] = useState({
+  const [multiTxForm, setMultiTxForm] = useState({  // MULTI_WALLET
     receiver: [],
     amount: "",
     chain: ""
   });
 
   const [recentSendingCode, setRecentSendingCode] = useState('');
+  const [verificationId, setVerificationId] = useState('');  // POPULATE In Modal
 
   const convertDateTime = (unixTime) => {
     let date = new Date(unixTime * 1000).toString();
@@ -544,7 +545,9 @@ export const CloudProvider = ({ children }) => {
         recentSendingCode, 
         setRecentSendingCode,
         multiTxForm, 
-        setMultiTxForm
+        setMultiTxForm,
+        verificationId, 
+        setVerificationId
       }}
     >
       {children}

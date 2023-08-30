@@ -1,3 +1,5 @@
+// MULTI_WALLET
+
 import React, { useState, useContext } from "react";
 import cn from "classnames";
 import styles from "./Transfer.module.sass";
