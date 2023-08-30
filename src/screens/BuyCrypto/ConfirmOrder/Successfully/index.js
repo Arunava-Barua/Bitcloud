@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import cn from "classnames";
 import styles from "./Successfully.module.sass";
 import { Link } from "react-router-dom";
+
+import { CloudContext } from "../../../../context/CloudContext";
+
 
 const items = [
   {
@@ -16,6 +19,10 @@ const items = [
 ];
 
 const Successfully = () => {
+
+  const {
+    recentSendingCode, 
+  } = useContext(CloudContext);
   return (
     <>
       <div className={styles.successfully}>
@@ -28,8 +35,7 @@ const Successfully = () => {
         </div> */}
         <div className={`${styles.list} ${styles.longText}`}>
           <span>
-            000000000000000000000000000000000000000000000000000000000000000000000000000000
-            
+            {recentSendingCode != '' ? recentSendingCode :'000000000000000000000000000000000000000000000000000000000000000000000000000000'}
           </span>
         </div>
         <div

@@ -20,6 +20,14 @@ export const CloudProvider = ({ children }) => {
   const [sendingTxns, setSendingTxns] = useState([]);
   const [accountBalance, setAccountBalance] = useState('');
 
+  const [singleTxForm, setsingleTxForm] = useState({
+    receiver: "",
+    amount: "",
+    chain: ""
+  });
+
+  const [recentSendingCode, setRecentSendingCode] = ('');
+
   const convertDateTime = (unixTime) => {
     let date = new Date(unixTime * 1000).toString();
 
@@ -158,13 +166,13 @@ export const CloudProvider = ({ children }) => {
       }
 
       const txRes = await contract.getSendingPayments(userAddress);
-      console.log("My Receiving payments: ", txRes);
+      console.log("My sending payments: ", txRes);
 
       txRes &&
         txRes.map((details, index) => {
           txn = {
             id: Number(details.transactionId._hex),
-            verificationId: Number(details.verficationId._hex),
+            verificationId: BigInt(details.verficationId._hex).toString(),
             sender: details.sender,
             receiver: details.receiver,
             amount: Number(details.amount._hex),
@@ -262,7 +270,7 @@ export const CloudProvider = ({ children }) => {
 
         setTimeout(async () =>  {
           await initiateTransaction(receiver, amount, chain);
-        }, 5000); // doubt
+        }, 50000); // doubt
         
         console.log("Random words: ",txRes);
         return true;
@@ -489,7 +497,11 @@ export const CloudProvider = ({ children }) => {
         setReceivingTxns,
         getAllMyReceiving,
         sendingTxns,
-        accountBalance
+        accountBalance,
+        singleTxForm, 
+        setsingleTxForm,
+        recentSendingCode, 
+        setRecentSendingCode
       }}
     >
       {children}

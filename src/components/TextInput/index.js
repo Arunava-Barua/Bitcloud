@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import cn from "classnames";
 import styles from "./TextInput.module.sass";
 import Icon from "../Icon";
+
+import { CloudContext } from "../../context/CloudContext";
 
 const TextInput = ({
   className,
@@ -14,6 +16,12 @@ const TextInput = ({
   note,
   ...props
 }) => {
+  const { singleTxForm, setsingleTxForm } = useContext(CloudContext);
+
+  useEffect(() => {
+    console.log("Form Data: ", singleTxForm);
+  }, [singleTxForm]);
+
   return (
     <div
       className={cn(
@@ -26,7 +34,23 @@ const TextInput = ({
     >
       {label && <div className={cn(classLabel, styles.label)}>{label}</div>}
       <div className={styles.wrap}>
-        <input className={cn(classInput, styles.input)} {...props} />
+        {label == "Amount to transfer" ? (
+          <input
+            className={cn(classInput, styles.input)}
+            {...props}
+            onChange={(e) =>
+              setsingleTxForm({ ...singleTxForm, amount: e.target.value })
+            }
+          />
+        ) : (
+          <input
+            className={cn(classInput, styles.input)}
+            {...props}
+            onChange={(e) =>
+              setsingleTxForm({ ...singleTxForm, receiver: e.target.value })
+            }
+          />
+        )}
         {view && (
           <button className={styles.toggle}>
             <Icon name="eye" size="24" />

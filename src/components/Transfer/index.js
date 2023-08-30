@@ -46,10 +46,26 @@ const Transfer = () => {
     setToggleTransferSuccess,
     visibleTransfer,
     setVisibleTransfer,
-    accountBalance
+    accountBalance,
+    singleTxForm, 
+    setsingleTxForm,
+    getRandomNumber,
+    recentSendingCode, 
+    setRecentSendingCode,
+    sendingTxns
   } = useContext(CloudContext);
 
   useEffect(() => console.log(toggleTransferSuccess), [toggleTransferSuccess]);
+
+  const handleSingleTransfer = async () => {
+    const res = await getRandomNumber(singleTxForm);
+    console.log("Initiating tx Status: ", res);
+
+    setTimeout(() =>  {
+      setRecentSendingCode(sendingTxns[sendingTxns.length - 1].verificationId);
+      setToggleTransferSuccess(true);
+    }, 70000);
+  }
 
   return (
     <div className={styles.transfer}>
@@ -119,7 +135,9 @@ const Transfer = () => {
       </div>
       <button
         className={cn("button", styles.button)}
-        onClick={() => setToggleTransferSuccess(true)}
+        onClick={() => {
+          handleSingleTransfer(true)
+        }}
       >
         Transfer
       </button>

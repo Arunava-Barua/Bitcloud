@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
 import styles from "./Dropdown.module.sass";
 import Icon from "../Icon";
+
+import { CloudContext } from "../../context/CloudContext";
 
 const Dropdown = ({
   className,
@@ -18,7 +20,14 @@ const Dropdown = ({
 }) => {
   const [visible, setVisible] = useState(false);
 
+  const { singleTxForm, setsingleTxForm } = useContext(CloudContext);
+
+  useEffect(() => {
+    console.log(singleTxForm);
+  }, [singleTxForm])
+
   const handleClick = (value) => {
+    setsingleTxForm({...singleTxForm, chain: value});
     setValue(value);
     setVisible(false);
   };
