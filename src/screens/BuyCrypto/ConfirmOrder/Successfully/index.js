@@ -51,7 +51,7 @@ const Successfully = () => {
             Trade
           </Link> */}
           <Link className={cn("button", styles.button)} to='/wallet-overview'>
-            Generate
+            Done
           </Link>
         </div>
       </div>

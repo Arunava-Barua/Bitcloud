@@ -49,7 +49,7 @@ const Table = ({ className, items }) => {
               <div className={cn("category-blue", styles.category)} style={{'cursor': 'pointer'}} onClick={() => {
                   // handleApproveTxn(x.id); // MODAL for entering verification id
                 }}>
-                {x.status == "Waiting for acceptance" ? "Approve" : x.status}
+                {x.status == "Waiting for acceptance" ? "Accept" : x.status}
               </div>
             )}
           </div>

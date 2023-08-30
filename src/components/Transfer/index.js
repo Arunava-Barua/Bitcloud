@@ -63,12 +63,12 @@ const Transfer = () => {
     const res = await getRandomNumber(singleTxForm);
     console.log("Initiating tx Status: ", res);
 
-    setTimeout(async () =>  { // BUG
-      await getAllMySending();
-      console.log(sendingTxns[sendingTxns.length - 1].verificationId);
-      // setRecentSendingCode(sendingTxns[sendingTxns.length - 1].verificationId);
-      setToggleTransferSuccess(true);
-    }, 70000);
+    // setTimeout(async () =>  { // BUG
+    //   await getAllMySending();
+    //   console.log(sendingTxns[sendingTxns.length - 1].verificationId);
+    //   // setRecentSendingCode(sendingTxns[sendingTxns.length - 1].verificationId);
+    //   setToggleTransferSuccess(true);
+    // }, 70000);
   }
 
   return (

@@ -7,7 +7,7 @@ import ERC20 from "./ERC20.json";
 
 export const CloudContext = createContext({});
 
-const contractAddress = "0xcA82A7B87De5EAf45305422aF17Da0A092584cda";
+const contractAddress = "0xDb633b200D568D7bC49d8E0a1E16FEb3924C3695";
 const erc20ContractAddress = "0x2c852e740B62308c46DD29B982FBb650D063Bd07";
 const contractAbi = Crossway.abi;
 const erc20ContractAbi = ERC20.abi;
@@ -32,7 +32,7 @@ export const CloudProvider = ({ children }) => {
     chain: ""
   });
 
-  const [recentSendingCode, setRecentSendingCode] = ('');
+  const [recentSendingCode, setRecentSendingCode] = useState('');
 
   const convertDateTime = (unixTime) => {
     let date = new Date(unixTime * 1000).toString();
@@ -228,7 +228,7 @@ export const CloudProvider = ({ children }) => {
         txRes.map((details, index) => {
           txn = {
             id: Number(details.transactionId._hex),
-            verificationId: Number(details.verficationId._hex),
+            verificationId: ethers.BigNumber.from(details.verficationId._hex).toString(),
             sender: details.sender,
             receiver: details.receiver,
             amount: Number(details.amount._hex),
@@ -243,6 +243,38 @@ export const CloudProvider = ({ children }) => {
 
       setReceivingTxns(results);
       console.log("Formatted Receiving: ", results);
+    }
+  };
+
+  const getLatestId = async () => {
+    let results = [], txn;
+    let userAddress;
+
+    if (window.ethereum) {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        provider
+      );
+
+      if (window.ethereum.isConnected()) {
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        console.log(accounts[0]);
+        userAddress = accounts[0];
+      }
+
+      const txRes = await contract.getLatestVerificationId();
+      // ethers.BigNumber.from(details.verficationId._hex).toString(),
+      console.log("My Recent ID: ", ethers.BigNumber.from(txRes._hex).toString());
+
+      setRecentSendingCode(ethers.BigNumber.from(txRes._hex).toString());
     }
   };
 
@@ -275,7 +307,10 @@ export const CloudProvider = ({ children }) => {
         await txRes.wait(1);
 
         setTimeout(async () =>  {
-          await initiateTransaction(receiver, amount, chain);
+          await getLatestId();
+          const res = await initiateTransaction(receiver, amount, chain);
+          
+          setToggleTransferSuccess(true);
         }, 50000); // doubt
         
         console.log("Random words: ",txRes);
