@@ -11,12 +11,12 @@ const Card = ({ className, item }) => {
       </div>
       <div className={styles.title}>{item.title}</div>
       <div className={styles.content}>{item.content}</div>
-      <Link
+      {/* <Link
         className={cn("button-stroke button-small", styles.button)}
         to={item.url}
       >
         {item.button}
-      </Link>
+      </Link> */}
     </div>
   );
 };

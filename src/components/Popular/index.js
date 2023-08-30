@@ -8,7 +8,7 @@ import Card from "./Card";
 
 const items = [
   {
-    title: "Buy & Sell Crypto",
+    title: "Multi-Wallet Transfer",
     content:
       "We realize ideas from simple to complex, everything becomes easy to use and reach the most potential customers.",
     button: "Buy crypto",
@@ -17,7 +17,7 @@ const items = [
     url: "/buy-crypto",
   },
   {
-    title: "Trade Assets",
+    title: "Chainlink VRF",
     content:
       "We realize ideas from simple to complex, everything becomes easy to use and reach the most potential customers.",
     button: "Trade now",
@@ -26,7 +26,7 @@ const items = [
     url: "/exchange",
   },
   {
-    title: "Learn crypto",
+    title: "2-Factor Authentication",
     content:
       "We realize ideas from simple to complex, everything becomes easy to use and reach the most potential customers.",
     button: "Learn now",
@@ -88,10 +88,10 @@ const Popular = ({ classSection }) => {
       <div className={cn("container", styles.container)}>
         <div className={styles.head}>
           <h2 className={cn("h2", styles.title)}>
-            Become a crypto trader in seconds
+            Secure cross-chain transactions
           </h2>
           <div className={styles.info}>
-            We've got everything you need to start trading.
+            We've got everything you need to start sending.
           </div>
         </div>
         <div className={styles.wrapper}>
@@ -101,11 +101,11 @@ const Popular = ({ classSection }) => {
             ))}
           </Slider>
         </div>
-        <div className={styles.btns}>
+        {/* <div className={styles.btns}>
           <Link className={cn("button", styles.button)} to="/contact">
             Contact Us
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
