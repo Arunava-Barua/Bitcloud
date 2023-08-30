@@ -18,22 +18,23 @@ export const CloudProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [receivingTxns, setReceivingTxns] = useState([]);
   const [sendingTxns, setSendingTxns] = useState([]);
-  const [accountBalance, setAccountBalance] = useState('');
+  const [accountBalance, setAccountBalance] = useState("");
 
   const [singleTxForm, setsingleTxForm] = useState({
     receiver: "",
     amount: "",
-    chain: ""
+    chain: "",
   });
 
-  const [multiTxForm, setMultiTxForm] = useState({  // MULTI_WALLET
+  const [multiTxForm, setMultiTxForm] = useState({
+    // MULTI_WALLET
     receiver: [],
     amount: "",
-    chain: ""
+    chain: "",
   });
 
-  const [recentSendingCode, setRecentSendingCode] = useState('');
-  const [verificationId, setVerificationId] = useState('');  // POPULATE In Modal
+  const [recentSendingCode, setRecentSendingCode] = useState("");
+  const [verificationId, setVerificationId] = useState(""); // POPULATE In Modal
 
   const convertDateTime = (unixTime) => {
     let date = new Date(unixTime * 1000).toString();
@@ -139,17 +140,18 @@ export const CloudProvider = ({ children }) => {
 
       const txRes = await contract.balanceOf(userAddress);
       let formattedtxRes = Number(txRes._hex);
-      formattedtxRes = formattedtxRes/ (10 ** 6);
-      console.log('====================================');
+      formattedtxRes = formattedtxRes / 10 ** 6;
+      console.log("====================================");
       console.log("balance of ---> ", formattedtxRes);
-      console.log('====================================');
+      console.log("====================================");
 
       setAccountBalance(formattedtxRes);
     }
-  }
+  };
 
   const getAllMySending = async () => {
-    let results = [], txn;
+    let results = [],
+      txn;
     let userAddress;
 
     if (window.ethereum) {
@@ -179,7 +181,9 @@ export const CloudProvider = ({ children }) => {
         txRes.map((details, index) => {
           txn = {
             id: Number(details.transactionId._hex),
-            verificationId: ethers.BigNumber.from(details.verficationId._hex).toString(),
+            verificationId: ethers.BigNumber.from(
+              details.verficationId._hex
+            ).toString(),
             sender: details.sender,
             receiver: details.receiver,
             amount: Number(details.amount._hex),
@@ -229,7 +233,9 @@ export const CloudProvider = ({ children }) => {
         txRes.map((details, index) => {
           txn = {
             id: Number(details.transactionId._hex),
-            verificationId: ethers.BigNumber.from(details.verficationId._hex).toString(),
+            verificationId: ethers.BigNumber.from(
+              details.verficationId._hex
+            ).toString(),
             sender: details.sender,
             receiver: details.receiver,
             amount: Number(details.amount._hex),
@@ -248,7 +254,8 @@ export const CloudProvider = ({ children }) => {
   };
 
   const getLatestId = async () => {
-    let results = [], txn;
+    let results = [],
+      txn;
     let userAddress;
 
     if (window.ethereum) {
@@ -273,13 +280,16 @@ export const CloudProvider = ({ children }) => {
 
       const txRes = await contract.getLatestVerificationId();
       // ethers.BigNumber.from(details.verficationId._hex).toString(),
-      console.log("My Recent ID: ", ethers.BigNumber.from(txRes._hex).toString());
+      console.log(
+        "My Recent ID: ",
+        ethers.BigNumber.from(txRes._hex).toString()
+      );
 
       setRecentSendingCode(ethers.BigNumber.from(txRes._hex).toString());
     }
   };
 
-  const getRandomNumber = async ({receiver, amount, chain}) => {
+  const getRandomNumber = async ({ receiver, amount, chain }) => {
     let user;
     try {
       if (window.ethereum) {
@@ -303,18 +313,18 @@ export const CloudProvider = ({ children }) => {
         }
 
         // string memory _companyName, string memory _description, uint256 _loanAmt, string memory _docs
-        const txRes = await contract.requestRandomWords({gasLimit: 50000000});
+        const txRes = await contract.requestRandomWords({ gasLimit: 50000000 });
 
         await txRes.wait(1);
 
-        setTimeout(async () =>  {
+        setTimeout(async () => {
           await getLatestId();
           const res = await initiateTransaction(receiver, amount, chain);
-          
+
           setToggleTransferSuccess(true);
         }, 50000); // doubt
-        
-        console.log("Random words: ",txRes);
+
+        console.log("Random words: ", txRes);
         return true;
       }
     } catch (error) {
@@ -348,12 +358,17 @@ export const CloudProvider = ({ children }) => {
 
         //address _sender, address _receiver, uint256 _amount, string memory _chain, string memory _receiverStr
         const txRes = await contract.executePayment(
-          user, receiver, amount, chain, receiver,
-          {gasLimit: 50000000});
+          user,
+          receiver,
+          amount,
+          chain,
+          receiver,
+          { gasLimit: 50000000 }
+        );
 
         await txRes.wait(1);
-        
-        console.log("Initiate Txn: ",txRes);
+
+        console.log("Initiate Txn: ", txRes);
 
         return true;
       }
@@ -386,13 +401,13 @@ export const CloudProvider = ({ children }) => {
           user = accounts[0];
         }
 
-        const txRes = await contract.cancelPayment(
-          user, transactionId,
-          {gasLimit: 50000000});
+        const txRes = await contract.cancelPayment(user, transactionId, {
+          gasLimit: 50000000,
+        });
 
         await txRes.wait(1);
-        
-        console.log("Cancel Txn: ",txRes);
+
+        console.log("Cancel Txn: ", txRes);
 
         return true;
       }
@@ -426,12 +441,15 @@ export const CloudProvider = ({ children }) => {
         }
 
         const txRes = await contract.acceptIncomingPayment(
-          user, transactionId, verificationId,
-          {gasLimit: 50000000});
+          user,
+          transactionId,
+          verificationId,
+          { gasLimit: 50000000 }
+        );
 
         await txRes.wait(1);
-        
-        console.log("Accept Txn: ",txRes);
+
+        console.log("Accept Txn: ", txRes);
 
         return true;
       }
@@ -441,7 +459,8 @@ export const CloudProvider = ({ children }) => {
     }
   };
 
-  const approveOutTransaction = async (transactionId) => { // Integrated
+  const approveOutTransaction = async (transactionId) => {
+    // Integrated
     let user;
     try {
       if (window.ethereum) {
@@ -465,12 +484,14 @@ export const CloudProvider = ({ children }) => {
         }
 
         const txRes = await contract.approveOutgoingPayment(
-          user, transactionId,
-          {gasLimit: 50000000});
+          user,
+          transactionId,
+          { gasLimit: 50000000 }
+        );
 
         await txRes.wait(1);
-        
-        console.log("Approve Txn: ",txRes);
+
+        console.log("Approve Txn: ", txRes);
 
         return true;
       }
@@ -480,7 +501,12 @@ export const CloudProvider = ({ children }) => {
     }
   };
 
-  const multiTransaction = async ({walletAddresses, chain, symbol, amount}) => {
+  const multiTransaction = async ({
+    walletAddresses,
+    chain,
+    symbol,
+    amount,
+  }) => {
     let user;
     try {
       if (window.ethereum) {
@@ -504,12 +530,18 @@ export const CloudProvider = ({ children }) => {
         }
 
         const txRes = await contract.sendToMany(
-          chain, "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9", walletAddresses, symbol, amount, user,
-          {gasLimit: 50000000, value: ethers.utils.parseEther('0.4')});
+          chain,
+          "0xEC6C1001a15c48D4Ea2C7CD7C45a1c5b6aD120E9",
+          walletAddresses,
+          symbol,
+          amount,
+          user,
+          { gasLimit: 50000000, value: ethers.utils.parseEther("0.4") }
+        );
 
         await txRes.wait(1);
-        
-        console.log("Multi Txn: ",txRes);
+
+        console.log("Multi Txn: ", txRes);
 
         return true;
       }
@@ -540,14 +572,14 @@ export const CloudProvider = ({ children }) => {
         getAllMyReceiving,
         sendingTxns,
         accountBalance,
-        singleTxForm, 
+        singleTxForm,
         setsingleTxForm,
-        recentSendingCode, 
+        recentSendingCode,
         setRecentSendingCode,
-        multiTxForm, 
+        multiTxForm,
         setMultiTxForm,
-        verificationId, 
-        setVerificationId
+        verificationId,
+        setVerificationId,
       }}
     >
       {children}
