@@ -11,11 +11,10 @@ const Main = ({ scrollToRef }) => {
       <div className={cn("container", styles.container)}>
         <div className={styles.wrap}>
           <h1 className={cn("h1", styles.title)}>
-            Buy & sell <br></br>crypto in minutes
+            Send crypto <br></br> cross-chain in seconds
           </h1>
           <div className={styles.text}>
-            Trade Bitcoin, Ethereum, USDT, and the top altcoins on the legendary
-            crypto asset exchange.
+            Transfer tokens to friends and groups safe and secure with 2FA and Chainlink VRF powered by Axelar.
           </div>
           <Link className={cn("button", styles.button)} to='/wallet-overview'>
             Get started now

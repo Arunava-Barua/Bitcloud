@@ -61,7 +61,6 @@ const TextInput = ({
             <Icon name={icon} size="24" />
           </div>
         )}
-        {note && <div className={styles.note}>{note}</div>}
       </div>
     </div>
   );

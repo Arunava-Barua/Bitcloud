@@ -4,6 +4,7 @@ import styles from "./Transfer.module.sass";
 import Icon from "../Icon";
 import TextInput from "../TextInput";
 import Dropdown from "../Dropdown";
+
 import { CloudContext } from "../../context/CloudContext";
 
 const fromDirectionOptions = ["Margin", "Fiat and Spot"];
@@ -52,7 +53,8 @@ const Transfer = () => {
     getRandomNumber,
     recentSendingCode, 
     setRecentSendingCode,
-    sendingTxns
+    sendingTxns,
+    getAllMySending
   } = useContext(CloudContext);
 
   useEffect(() => console.log(toggleTransferSuccess), [toggleTransferSuccess]);
@@ -61,8 +63,10 @@ const Transfer = () => {
     const res = await getRandomNumber(singleTxForm);
     console.log("Initiating tx Status: ", res);
 
-    setTimeout(() =>  {
-      setRecentSendingCode(sendingTxns[sendingTxns.length - 1].verificationId);
+    setTimeout(async () =>  { // BUG
+      await getAllMySending();
+      console.log(sendingTxns[sendingTxns.length - 1].verificationId);
+      // setRecentSendingCode(sendingTxns[sendingTxns.length - 1].verificationId);
       setToggleTransferSuccess(true);
     }, 70000);
   }

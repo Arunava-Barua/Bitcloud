@@ -26,6 +26,12 @@ export const CloudProvider = ({ children }) => {
     chain: ""
   });
 
+  const [multiTxForm, setMultiTxForm] = useState({
+    receiver: [],
+    amount: "",
+    chain: ""
+  });
+
   const [recentSendingCode, setRecentSendingCode] = ('');
 
   const convertDateTime = (unixTime) => {
@@ -172,7 +178,7 @@ export const CloudProvider = ({ children }) => {
         txRes.map((details, index) => {
           txn = {
             id: Number(details.transactionId._hex),
-            verificationId: BigInt(details.verficationId._hex).toString(),
+            verificationId: ethers.BigNumber.from(details.verficationId._hex).toString(),
             sender: details.sender,
             receiver: details.receiver,
             amount: Number(details.amount._hex),
@@ -501,7 +507,9 @@ export const CloudProvider = ({ children }) => {
         singleTxForm, 
         setsingleTxForm,
         recentSendingCode, 
-        setRecentSendingCode
+        setRecentSendingCode,
+        multiTxForm, 
+        setMultiTxForm
       }}
     >
       {children}

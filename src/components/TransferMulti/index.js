@@ -47,6 +47,10 @@ const TransferMulti = () => {
     accountBalance
   } = useContext(CloudContext);
 
+  const handleMultiTx = async () => {
+    console.log('Multi-Transfer btn clicked');
+  }
+
   return (
     <div className={styles.transfer}>
       <div className={cn("h4", styles.title)}>
@@ -75,7 +79,7 @@ const TransferMulti = () => {
           label='Receiver Address 1 *'
           name='Address'
           type='text'
-          note=''
+          note='multi'
           required
         />
         <TextInput
@@ -83,7 +87,7 @@ const TransferMulti = () => {
           label='Receiver Address 2 *'
           name='Address'
           type='text'
-          note=''
+          note='multi'
           required
         />
         <TextInput
@@ -91,14 +95,14 @@ const TransferMulti = () => {
           label='Receiver Address 3'
           name='Address'
           type='text'
-          note=''
+          note='multi'
         />
         <TextInput
           className={styles.field}
           label='Receiver Address 4'
           name='Address'
           type='text'
-          note=''
+          note='multi'
         />
       </div>
       {/* <div className={styles.sign}>
@@ -111,6 +115,7 @@ const TransferMulti = () => {
           value={toDirection}
           setValue={setToDirection}
           options={toDirectionOptions}
+          note='multi'
         />
       </div>
       <div className={styles.field}>
@@ -120,6 +125,7 @@ const TransferMulti = () => {
           value={coin}
           setValue={setCoin}
           options={coinOptions}
+          note='multi'
         />
       </div>
       <div className={styles.box}>
@@ -128,14 +134,14 @@ const TransferMulti = () => {
           label='Amount to transfer'
           name='amount'
           type='text'
-          note={`${accountBalance} aUSDC available`}
+          note={`multi`}
           required
         />
         <button className={cn("button-stroke button-small", styles.button)}>
           Max amount
         </button>
       </div>
-      <button className={cn("button", styles.button)}>Transfer</button>
+      <button className={cn("button", styles.button)} onClick={() => handleMultiTx()}>Transfer</button>
     </div>
   );
 };
