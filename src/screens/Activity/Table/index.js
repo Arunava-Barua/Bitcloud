@@ -10,8 +10,10 @@ import { CloudContext } from "../../../context/CloudContext";
 import { shortenAddress } from "../../../utils/shortenAddress.jsx";
 import Modal from "../../../components/Modal";
 const Table = ({ className, items }) => {
-  const { receivingTxns } = useContext(CloudContext);
+  const { receivingTxns, verificationId, setVerificationId } =
+    useContext(CloudContext);
   const [showModal, setShowModal] = useState(false);
+  const [_verificationCode, _setVerificationCode] = useState(""); // [TODO] - use this to verify the transaction
   console.log("State txs: ", receivingTxns);
 
   const handleAcceptTxn = async (txId) => {
@@ -106,11 +108,30 @@ const Table = ({ className, items }) => {
                 className={styles.input}
                 type="text"
                 placeholder="Verification ID"
+                value={_verificationCode}
+                onChange={(e) => _setVerificationCode(e.target.value)}
               />
             </div>
             <div className={styles.btns}>
-              <button className="button-stroke button-small">Cancel</button>
-              <button className="button button-small">Confirm</button>
+              <button
+                className="button-stroke button-small"
+                onClick={() => {
+                  _setVerificationCode("");
+                  setShowModal(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="button button-small"
+                onClick={() => {
+                  setVerificationId(_verificationCode);
+                  _setVerificationCode("");
+                  // setShowModal(false);
+                }}
+              >
+                Confirm
+              </button>
             </div>
           </div>
         </div>
