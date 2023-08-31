@@ -43,11 +43,14 @@ const TransferMulti = () => {
   const [fromDirection, setFromDirection] = useState(fromDirectionOptions[0]);
   const [toDirection, setToDirection] = useState(toDirectionOptions[0]);
   const [coin, setCoin] = useState(coinOptions[0]);
-  const [accountsTo, setAccountsTo] = useState([0, 0, 0, 0]); // [TODO] - use this to verify the transaction
-  const { accountBalance } = useContext(CloudContext);
+  const [accountsTo, setAccountsTo] = useState([]); // [TODO] - use this to verify the transaction
+
+  const { accountBalance, multiTransaction, singleTxForm} = useContext(CloudContext);
 
   const handleMultiTx = async () => {
     console.log("Multi-Transfer btn clicked");
+    const res = await multiTransaction(accountsTo, singleTxForm);
+    console.log("Response for Multi Txn: ", res);
   };
 
   return (
@@ -81,12 +84,7 @@ const TransferMulti = () => {
           type="text"
           note="multi"
           onChange={(e) => {
-            setAccountsTo([
-              e.target.value,
-              accountsTo[1],
-              accountsTo[2],
-              accountsTo[3],
-            ]);
+            setAccountsTo((prev) => [...prev, e.target.value]);
           }}
         />
         <p className={styles.label}>Receiver Address 2 *</p>
@@ -97,12 +95,7 @@ const TransferMulti = () => {
           type="text"
           note="multi"
           onChange={(e) => {
-            setAccountsTo([
-              accountsTo[0],
-              e.target.value,
-              accountsTo[2],
-              accountsTo[3],
-            ]);
+            setAccountsTo((prev) => [...prev, e.target.value]);
           }}
         />
         <p className={styles.label}>Receiver Address 3</p>
@@ -113,12 +106,7 @@ const TransferMulti = () => {
           type="text"
           note="multi"
           onChange={(e) => {
-            setAccountsTo([
-              accountsTo[0],
-              accountsTo[1],
-              e.target.value,
-              accountsTo[3],
-            ]);
+            setAccountsTo((prev) => [...prev, e.target.value]);
           }}
         />
 
@@ -130,12 +118,7 @@ const TransferMulti = () => {
           type="text"
           note="multi"
           onChange={(e) => {
-            setAccountsTo([
-              accountsTo[0],
-              accountsTo[1],
-              accountsTo[2],
-              e.target.value,
-            ]);
+            setAccountsTo((prev) => [...prev, e.target.value]);
           }}
         />
       </div>
@@ -179,7 +162,7 @@ const TransferMulti = () => {
         className={cn("button", styles.button)}
         onClick={() => handleMultiTx()}
       >
-        Transfer
+        Multi-Transfer
       </button>
     </div>
   );

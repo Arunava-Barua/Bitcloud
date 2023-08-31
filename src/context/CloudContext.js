@@ -28,7 +28,6 @@ export const CloudProvider = ({ children }) => {
 
   const [multiTxForm, setMultiTxForm] = useState({
     // MULTI_WALLET
-    receiver: [],
     amount: "",
     chain: "",
   });
@@ -139,7 +138,7 @@ export const CloudProvider = ({ children }) => {
         userAddress = accounts[0];
       }
 
-      const txRes = await contract.balanceOf(userAddress);
+      const txRes = await contract.balanceOf("0xDb633b200D568D7bC49d8E0a1E16FEb3924C3695");
       let formattedtxRes = Number(txRes._hex);
       formattedtxRes = formattedtxRes / 10 ** 6;
       console.log("====================================");
@@ -502,12 +501,7 @@ export const CloudProvider = ({ children }) => {
     }
   };
 
-  const multiTransaction = async ({
-    walletAddresses,
-    chain,
-    symbol,
-    amount,
-  }) => {
+  const multiTransaction = async (walletAddresses, {receiver, chain, amount}, symbol="aUSDC") => {
     let user;
     try {
       if (window.ethereum) {
