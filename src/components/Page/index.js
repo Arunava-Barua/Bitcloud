@@ -18,7 +18,7 @@ const Page = ({ headerHide, children, footerHide, headerWide }) => {
       <div className={styles.page}>
         {!headerHide && <Header headerWide={headerWide} />}
         <div className={styles.inner}>{children}</div>
-        {!footerHide && <Footer />}
+        {/* {!footerHide && <Footer />} */}
       </div>
     </>
   );

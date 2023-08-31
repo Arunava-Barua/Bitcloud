@@ -8,27 +8,27 @@ import Card from "./Card";
 
 const items = [
   {
-    title: "Buy & Sell Crypto",
+    title: "Multi-Wallet Transfer",
     content:
-      "We realize ideas from simple to complex, everything becomes easy to use and reach the most potential customers.",
+      "We understand friends and collegues need to send funds to multiple wallets across chain, dont worry we got you covered with the same security.",
     button: "Buy crypto",
     image: "/images/content/card-pic-1.png",
     image2x: "/images/content/card-pic-1@2x.png",
     url: "/buy-crypto",
   },
   {
-    title: "Trade Assets",
+    title: "Chainlink VRF",
     content:
-      "We realize ideas from simple to complex, everything becomes easy to use and reach the most potential customers.",
+      "Super secure and uncrackable verification numbers with Chainlink VRF powered by Chainlink Oracles and Network. Stay unpredictable.",
     button: "Trade now",
     image: "/images/content/card-pic-2.png",
     image2x: "/images/content/card-pic-2@2x.png",
     url: "/exchange",
   },
   {
-    title: "Learn crypto",
+    title: "2-Factor Authentication",
     content:
-      "We realize ideas from simple to complex, everything becomes easy to use and reach the most potential customers.",
+      "Enjoy the pace and elegance of Web3 with the security and trust like Web2. Get codes and verify your identity to receive the funds.",
     button: "Learn now",
     image: "/images/content/card-pic-3.png",
     image2x: "/images/content/card-pic-3@2x.png",
@@ -88,10 +88,10 @@ const Popular = ({ classSection }) => {
       <div className={cn("container", styles.container)}>
         <div className={styles.head}>
           <h2 className={cn("h2", styles.title)}>
-            Become a crypto trader in seconds
+            Secure cross-chain transactions
           </h2>
           <div className={styles.info}>
-            We've got everything you need to start trading.
+            We've got everything you need to start sending.
           </div>
         </div>
         <div className={styles.wrapper}>
@@ -101,11 +101,11 @@ const Popular = ({ classSection }) => {
             ))}
           </Slider>
         </div>
-        <div className={styles.btns}>
+        {/* <div className={styles.btns}>
           <Link className={cn("button", styles.button)} to="/contact">
             Contact Us
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
