@@ -9,7 +9,6 @@ import Dropdown from "../Dropdown";
 
 import { CloudContext } from "../../context/CloudContext";
 
-
 const fromDirectionOptions = ["Margin", "Fiat and Spot"];
 const toDirectionOptions = [
   "Ethereum Goerli",
@@ -44,19 +43,17 @@ const TransferMulti = () => {
   const [fromDirection, setFromDirection] = useState(fromDirectionOptions[0]);
   const [toDirection, setToDirection] = useState(toDirectionOptions[0]);
   const [coin, setCoin] = useState(coinOptions[0]);
-
-  const {
-    accountBalance
-  } = useContext(CloudContext);
+  const [accountsTo, setAccountsTo] = useState([0, 0, 0, 0]); // [TODO] - use this to verify the transaction
+  const { accountBalance } = useContext(CloudContext);
 
   const handleMultiTx = async () => {
-    console.log('Multi-Transfer btn clicked');
-  }
+    console.log("Multi-Transfer btn clicked");
+  };
 
   return (
     <div className={styles.transfer}>
       <div className={cn("h4", styles.title)}>
-        <Icon name='arrow-left' size='32' />
+        <Icon name="arrow-left" size="32" />
         Multi-Transfer
       </div>
       <div className={styles.wrap}>
@@ -76,35 +73,70 @@ const TransferMulti = () => {
           setValue={setFromDirection}
           options={fromDirectionOptions}
         /> */}
-        <TextInput
-          className={styles.field}
-          label='Receiver Address 1 *'
-          name='Address'
-          type='text'
-          note='multi'
-          required
+        <p className={styles.label}>Receiver Address 1 *</p>
+        <input
+          className={styles.input}
+          label="Receiver Address 1 *"
+          name="Address"
+          type="text"
+          note="multi"
+          onChange={(e) => {
+            setAccountsTo([
+              e.target.value,
+              accountsTo[1],
+              accountsTo[2],
+              accountsTo[3],
+            ]);
+          }}
         />
-        <TextInput
-          className={styles.field}
-          label='Receiver Address 2 *'
-          name='Address'
-          type='text'
-          note='multi'
-          required
+        <p className={styles.label}>Receiver Address 2 *</p>
+        <input
+          className={styles.input}
+          label="Receiver Address 2 *"
+          name="Address"
+          type="text"
+          note="multi"
+          onChange={(e) => {
+            setAccountsTo([
+              accountsTo[0],
+              e.target.value,
+              accountsTo[2],
+              accountsTo[3],
+            ]);
+          }}
         />
-        <TextInput
-          className={styles.field}
-          label='Receiver Address 3'
-          name='Address'
-          type='text'
-          note='multi'
+        <p className={styles.label}>Receiver Address 3</p>
+        <input
+          className={styles.input}
+          label="Receiver Address 3"
+          name="Address"
+          type="text"
+          note="multi"
+          onChange={(e) => {
+            setAccountsTo([
+              accountsTo[0],
+              accountsTo[1],
+              e.target.value,
+              accountsTo[3],
+            ]);
+          }}
         />
-        <TextInput
-          className={styles.field}
-          label='Receiver Address 4'
-          name='Address'
-          type='text'
-          note='multi'
+
+        <p className={styles.label}>Receiver Address 4</p>
+        <input
+          className={styles.input}
+          label="Receiver Address 4"
+          name="Address"
+          type="text"
+          note="multi"
+          onChange={(e) => {
+            setAccountsTo([
+              accountsTo[0],
+              accountsTo[1],
+              accountsTo[2],
+              e.target.value,
+            ]);
+          }}
         />
       </div>
       {/* <div className={styles.sign}>
@@ -113,29 +145,29 @@ const TransferMulti = () => {
       <div className={styles.field}>
         <Dropdown
           className={styles.dropdown}
-          label='Chain'
+          label="Chain"
           value={toDirection}
           setValue={setToDirection}
           options={toDirectionOptions}
-          note='multi'
+          note="multi"
         />
       </div>
       <div className={styles.field}>
         <Dropdown
           className={styles.dropdown}
-          label='coin'
+          label="coin"
           value={coin}
           setValue={setCoin}
           options={coinOptions}
-          note='multi'
+          note="multi"
         />
       </div>
       <div className={styles.box}>
         <TextInput
           className={styles.field}
-          label='Amount to transfer'
-          name='amount'
-          type='text'
+          label="Amount to transfer"
+          name="amount"
+          type="text"
           note={`multi`}
           required
         />
@@ -143,7 +175,12 @@ const TransferMulti = () => {
           Max amount
         </button>
       </div>
-      <button className={cn("button", styles.button)} onClick={() => handleMultiTx()}>Transfer</button>
+      <button
+        className={cn("button", styles.button)}
+        onClick={() => handleMultiTx()}
+      >
+        Transfer
+      </button>
     </div>
   );
 };
