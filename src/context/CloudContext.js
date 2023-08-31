@@ -138,7 +138,7 @@ export const CloudProvider = ({ children }) => {
         userAddress = accounts[0];
       }
 
-      const txRes = await contract.balanceOf("0xDb633b200D568D7bC49d8E0a1E16FEb3924C3695");
+      const txRes = await contract.balanceOf(userAddress);
       let formattedtxRes = Number(txRes._hex);
       formattedtxRes = formattedtxRes / 10 ** 6;
       console.log("====================================");
