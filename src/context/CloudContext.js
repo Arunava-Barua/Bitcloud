@@ -35,6 +35,7 @@ export const CloudProvider = ({ children }) => {
 
   const [recentSendingCode, setRecentSendingCode] = useState("");
   const [verificationId, setVerificationId] = useState(""); // POPULATE In Modal
+  const [currentTxn, setCurrentTxn] = useState("");
 
   const convertDateTime = (unixTime) => {
     let date = new Date(unixTime * 1000).toString();
@@ -313,7 +314,7 @@ export const CloudProvider = ({ children }) => {
         }
 
         // string memory _companyName, string memory _description, uint256 _loanAmt, string memory _docs
-        const txRes = await contract.requestRandomWords({ gasLimit: 50000000 });
+        const txRes = await contract.requestRandomWords({ gasLimit: 5000000 });
 
         await txRes.wait(1);
 
@@ -363,7 +364,7 @@ export const CloudProvider = ({ children }) => {
           amount,
           chain,
           receiver,
-          { gasLimit: 50000000 }
+          { gasLimit: 5000000 }
         );
 
         await txRes.wait(1);
@@ -402,7 +403,7 @@ export const CloudProvider = ({ children }) => {
         }
 
         const txRes = await contract.cancelPayment(user, transactionId, {
-          gasLimit: 50000000,
+          gasLimit: 5000000,
         });
 
         await txRes.wait(1);
@@ -417,7 +418,7 @@ export const CloudProvider = ({ children }) => {
     }
   };
 
-  const acceptInTransaction = async (transactionId, verificationId) => {
+  const acceptInTransaction = async () => {
     let user;
     try {
       if (window.ethereum) {
@@ -442,9 +443,9 @@ export const CloudProvider = ({ children }) => {
 
         const txRes = await contract.acceptIncomingPayment(
           user,
-          transactionId,
+          currentTxn,
           verificationId,
-          { gasLimit: 50000000 }
+          { gasLimit: 5000000 }
         );
 
         await txRes.wait(1);
@@ -486,7 +487,7 @@ export const CloudProvider = ({ children }) => {
         const txRes = await contract.approveOutgoingPayment(
           user,
           transactionId,
-          { gasLimit: 50000000 }
+          { gasLimit: 5000000 }
         );
 
         await txRes.wait(1);
@@ -536,7 +537,7 @@ export const CloudProvider = ({ children }) => {
           symbol,
           amount,
           user,
-          { gasLimit: 50000000, value: ethers.utils.parseEther("0.4") }
+          { gasLimit: 5000000, value: ethers.utils.parseEther("0.4") }
         );
 
         await txRes.wait(1);
@@ -580,6 +581,8 @@ export const CloudProvider = ({ children }) => {
         setMultiTxForm,
         verificationId,
         setVerificationId,
+        currentTxn, 
+        setCurrentTxn
       }}
     >
       {children}

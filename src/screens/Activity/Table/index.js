@@ -10,14 +10,14 @@ import { CloudContext } from "../../../context/CloudContext";
 import { shortenAddress } from "../../../utils/shortenAddress.jsx";
 import Modal from "../../../components/Modal";
 const Table = ({ className, items }) => {
-  const { receivingTxns, verificationId, setVerificationId } =
-    useContext(CloudContext);
+  const { receivingTxns, verificationId, setVerificationId, currentTxn, setCurrentTxn, acceptInTransaction } = useContext(CloudContext);
   const [showModal, setShowModal] = useState(false);
-  const [_verificationCode, _setVerificationCode] = useState(""); // [TODO] - use this to verify the transaction
+
   console.log("State txs: ", receivingTxns);
 
-  const handleAcceptTxn = async (txId) => {
-    console.log("Receiving TX id: ", txId);
+  const handleAcceptTxn = async () => {
+    const res = await acceptInTransaction();
+    console.log("Accepting status: ", res);
   };
 
   return (
@@ -57,7 +57,7 @@ const Table = ({ className, items }) => {
                   className={cn("category-blue", styles.category)}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    handleAcceptTxn(x.id); // MODAL for entering verification id
+                    setCurrentTxn(x.id);
                     if (x.status == "Waiting for acceptance") {
                       if (!showModal) setShowModal(true);
                     }
@@ -96,7 +96,10 @@ const Table = ({ className, items }) => {
             </div>
           </div>
         ))}
-      <Modal visible={showModal} onClose={() => setShowModal(false)}>
+      <Modal visible={showModal} onClose={() => {
+        setVerificationId("");
+        setShowModal(false);
+        }}>
         <div className={styles.modal}>
           <div className={styles.title}>Enter verification ID</div>
           <div className={styles.subtitle}>
@@ -108,15 +111,17 @@ const Table = ({ className, items }) => {
                 className={styles.input}
                 type="text"
                 placeholder="Verification ID"
-                value={_verificationCode}
-                onChange={(e) => _setVerificationCode(e.target.value)}
+                value={verificationId}
+                onChange={(e) => setVerificationId(e.target.value)}
               />
+              {/* {console.log("Verification ID entered: ", verificationId)}
+              {console.log("Txn ID entered: ", currentTxn)} */}
             </div>
             <div className={styles.btns}>
               <button
                 className="button-stroke button-small"
                 onClick={() => {
-                  _setVerificationCode("");
+                  setVerificationId("");
                   setShowModal(false);
                 }}
               >
@@ -125,9 +130,8 @@ const Table = ({ className, items }) => {
               <button
                 className="button button-small"
                 onClick={() => {
-                  setVerificationId(_verificationCode);
-                  _setVerificationCode("");
-                  // setShowModal(false);
+                  setVerificationId("");
+                  handleAcceptTxn(); // MODAL for entering verification id
                 }}
               >
                 Confirm
