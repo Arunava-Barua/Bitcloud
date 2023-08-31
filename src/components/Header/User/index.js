@@ -52,41 +52,6 @@ const User = ({ className }) => {
         <button className={styles.head} onClick={() => setVisible(!visible)}>
           <img src="/images/content/avatar-user.jpg" alt="Avatar" />
         </button>
-        <div className={styles.body}>
-          <div className={styles.menu}>
-            {items.map((x, index) =>
-              x.url ? (
-                <Link
-                  className={styles.item}
-                  to={x.url}
-                  onClick={() => setVisible(!visible)}
-                  key={index}
-                >
-                  <div className={styles.icon}>
-                    <Icon name={x.icon} size="20" />
-                  </div>
-                  <div className={styles.details}>
-                    <div className={styles.title}>{x.title}</div>
-                    <div className={styles.content}>{x.content}</div>
-                  </div>
-                </Link>
-              ) : (
-                <div className={styles.item} key={index}>
-                  <div className={styles.icon}>
-                    <Icon name={x.icon} size="20" />
-                  </div>
-                  <div className={styles.details}>
-                    <div className={styles.line}>
-                      <div className={styles.title}>{x.title}</div>
-                      <Theme className={styles.theme} small />
-                    </div>
-                    <div className={styles.content}>{x.content}</div>
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        </div>
       </div>
     </OutsideClickHandler>
   );

@@ -31,10 +31,10 @@ const Settings = ({ className }) => {
           [styles.active]: visible,
         })}
       >
-        <button className={styles.head} onClick={() => setVisible(!visible)}>
+        {/* <button className={styles.head} onClick={() => setVisible(!visible)}>
           EN/USD
           <Icon name="arrow-down" size="16" />
-        </button>
+        </button> */}
         <div className={styles.body}>
           <div className={styles.row}>
             <div className={styles.col}>

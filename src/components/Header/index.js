@@ -107,22 +107,6 @@ const Header = ({ headerWide }) => {
             >
               Wallet
             </NavLink>
-            {/* <div className={styles.btns}>
-              <Link
-                className={cn("button-small", styles.button)}
-                activeClassName={styles.active}
-                to="/sign-up"
-              >
-                Sign Up
-              </Link>
-              <Link
-                className={cn("button-stroke button-small", styles.button)}
-                activeClassName={styles.active}
-                to="/sign-in"
-              >
-                Login
-              </Link>
-            </div> */}
           </div>
           <Settings className={styles.settings} />
           <div className={styles.control}>

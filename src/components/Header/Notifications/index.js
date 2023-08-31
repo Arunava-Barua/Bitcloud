@@ -58,7 +58,7 @@ const Notifications = ({ className }) => {
           <div className={styles.title}>Notifications</div>
           <div className={styles.list}>
             {items.map((x, index) => (
-              <Link
+              <div
                 className={cn(styles.item, { [styles.new]: index < 4 })}
                 to={x.url}
                 onClick={() => setVisible(!visible)}
@@ -66,17 +66,17 @@ const Notifications = ({ className }) => {
               >
                 <div className={styles.subtitle}>{x.title}</div>
                 <div className={styles.date}>{x.date}</div>
-              </Link>
+              </div>
             ))}
           </div>
           <div className={styles.btns}>
-            <Link
+            <div
               className={cn("button-small", styles.button)}
               to="notifications"
               onClick={() => setVisible(false)}
             >
               View all
-            </Link>
+            </div>
             <button className={cn("button-stroke button-small", styles.button)}>
               Clear all
             </button>

@@ -42,7 +42,7 @@ const Cards = ({ className }) => {
   return (
     <div className={cn(className, styles.cards)}>
       {items.map((x, index) => (
-        <Link className={styles.card} key={index} to={x.url}>
+        <div className={styles.card} key={index} to={x.url}>
           <div className={styles.icon}>
             <img src={x.image} alt="Currency" />
           </div>
@@ -59,7 +59,7 @@ const Cards = ({ className }) => {
             <div className={styles.price}>{x.price}</div>
             <div className={styles.money}>{x.money}</div>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
